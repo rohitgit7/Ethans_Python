@@ -1,0 +1,20 @@
+Mutlithreading
+
+  Package Installation, Windows spreadsheet parsing and webpage scrapping
+
+    Install package using Pycharm
+    What is pip, easy_install  
+    Set up the environment to install packages?
+    Install packages for XLS interface and XLS parsing with Python
+    Create XLS reports with Python
+    Introduction to web scraping and beautiful soup
+
+Debug Python programs using pdb debugger
+Pycharm Debugger
+Assert statement for debugging
+Testing with Python using UnitTest Framework
+
+os, sys, datetime, time, random, zip, requests modules
+OS Command Line
+sys.argv
+argparse module

@@ -1,0 +1,87 @@
+import sqlite3
+
+dbc_in_mem = sqlite3.connect(':memory:') #create db in RAM / defualt timeout 5 sec
+dbc_in_file = sqlite3.connect('ethans') #create db in file if not exists
+dbc_in_file.close()
+
+'''
+a database cursor is a control structure that enables traversal over the records in a database. Cursors facilitate subsequent processing in conjunction with the traversal, such as retrieval, addition and removal of database records
+'''
+
+
+dbc_in_file = sqlite3.connect('ethans1') #connect to db
+db_cursor = dbc_in_file.cursor()  # create db cursor
+
+# create a table
+db_cursor.execute('''CREATE TABLE COMPANY
+         (ID INT PRIMARY KEY     NOT NULL,
+         NAME           TEXT    NOT NULL,
+         AGE            INT     NOT NULL,
+         ADDRESS        CHAR(50),
+         SALARY         REAL);''')
+
+# insert a records
+db_cursor.execute("INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) \
+      VALUES (1, 'Rajesh', 32, 'pune', 20000.00 )");
+
+#db_cursor.execute("INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) \
+#      VALUES (2, 'Reema', 27,'Indore', 15000.00 )");
+
+#it creates an intermediate cursor object by calling the cursor method
+dbc_in_file.execute("INSERT INTO COMPANY (ID,NAME,AGE,ADDRESS,SALARY) \
+      VALUES (2, 'Reema', 27,'Indore', 15000.00 )");
+
+# inserting variables
+id = 3
+name = 'Akansha'
+age = 28
+addr = 'pimple saudagar'
+sal = 50000.00
+dbc_in_file.execute("insert into COMPANY (ID,NAME,AGE,ADDRESS,SALARY) values (?, ?, ?, ?, ?)",(id,name,age,addr,sal))
+
+#inserting multiple rows.
+'''
+id1,name1,age1,addr1,sal1 = 4,'arush1',21,'pune',501.00
+id2,name2,age2,addr2,sal2 = 5,'arush2',22,'pune',502.00
+id3,name3,age3,addr3,sal3 = 6,'arush3',23,'pune',503.00
+data = [(id1,name1,age1,addr1,sal1),
+		(id2,name2,age2,addr2,sal2,
+		(id3,name3,age3,addr3,sal3)]
+'''
+tup1 = (4,'arush1',21,'pune',501.00)
+tup2 = (5,'arush2',22,'pune',502.00)
+tup3 = (6,'arush3',23,'pune',503.00)
+data = [tup1,tup2,tup3]
+db_cursor.executemany("insert into COMPANY values (?, ?, ?, ?, ?)",data)
+
+# total number of database rows that have been modified, \
+# inserted, or deleted since the database connection was opened.
+print dbc_in_file.total_changes
+
+
+#dbc_in_file.rollback()
+dbc_in_file.commit()
+
+
+db_cursor.execute("SELECT id, name, address, salary from COMPANY")
+print db_cursor.fetchone()
+print "#"*20
+print db_cursor.fetchall()
+'''
+result = db_cursor.execute("SELECT id, name, address, salary from COMPANY")
+for row in result:
+   print "ID = ", row[0]
+   print "NAME = ", row[1]
+   print "ADDRESS = ", row[2]
+   print "SALARY = ", row[3], "\n"
+'''
+db_cursor.execute("drop table COMPANY")   
+
+#This method closes the database connection. 
+# this does not automatically call commit(). If you close your database connection without calling commit()
+#  your changes will be lost!
+dbc_in_file.close()
+
+	
+
+
